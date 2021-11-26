@@ -2,11 +2,13 @@
 	
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <Version>1.0</Version>
+    <Version>0.9</Version>
     <Title>CategoryIconFix</Title>
     <Description>Description of CategoryIconFix</Description>
     <TargetExt>.gha</TargetExt>
     <UseWindowsForms>true</UseWindowsForms>
+    <Authors>秋水</Authors>
+    <PackageLicenseFile>D:\OneDrive - stu.zafu.edu.cn\Rhino Share Files\07 Grasshopper Developments 蚱蜢开发\# 项目案例\CategoryIconFix\LICENSE</PackageLicenseFile>
   </PropertyGroup>
   
   <ItemGroup>
