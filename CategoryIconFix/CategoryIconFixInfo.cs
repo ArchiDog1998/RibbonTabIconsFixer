@@ -1,7 +1,10 @@
 ﻿using Grasshopper;
+using Grasshopper.GUI;
+using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace CategoryIconFix
 {
@@ -22,5 +25,45 @@ namespace CategoryIconFix
 
         //Return a string representing your preferred contact details.
         public override string AuthorContact => "1123993881@qq.com";
+    }
+
+    public class CategoryIconFixAssemblyPriority : GH_AssemblyPriority
+    {
+        public override GH_LoadingInstruction PriorityLoad()
+        {
+            Grasshopper.Instances.CanvasCreated += Instances_CanvasCreated;
+            return GH_LoadingInstruction.Proceed;
+        }
+
+        private void Instances_CanvasCreated(GH_Canvas canvas)
+        {
+            Grasshopper.Instances.CanvasCreated -= Instances_CanvasCreated;
+
+            GH_DocumentEditor editor = Grasshopper.Instances.DocumentEditor;
+            if (editor == null)
+            {
+                Grasshopper.Instances.ActiveCanvas.DocumentChanged += ActiveCanvas_DocumentChanged;
+                return;
+            }
+            DoingSomethingFirst(editor);
+        }
+
+        private void ActiveCanvas_DocumentChanged(GH_Canvas sender, GH_CanvasDocumentChangedEventArgs e)
+        {
+            Grasshopper.Instances.ActiveCanvas.DocumentChanged -= ActiveCanvas_DocumentChanged;
+
+            GH_DocumentEditor editor = Grasshopper.Instances.DocumentEditor;
+            if (editor == null)
+            {
+                MessageBox.Show("CategoryIconFix can't find the menu!");
+                return;
+            }
+            DoingSomethingFirst(editor);
+        }
+
+        private void DoingSomethingFirst(GH_DocumentEditor editor)
+        {
+            CategoryIconChange.Init();
+        }
     }
 }
