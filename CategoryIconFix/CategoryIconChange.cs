@@ -47,7 +47,30 @@ namespace CategoryIconFix
         }
 
         private static readonly string _directoryName = "CategoryIcons";
-        internal static string FolderPath => Grasshopper.Folders.SettingsFolder + _directoryName + '\\';
+        internal static readonly string FolderPath = Grasshopper.Folders.SettingsFolder + _directoryName + '\\';
+
+        private static string[] _files = null;
+        public static string[] Files
+        {
+            get
+            {
+                if(_files == null)
+                {
+                    if (Directory.Exists(FolderPath))
+                    {
+                        _files = Directory.GetFiles(FolderPath);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(FolderPath);
+                        _files = new string[0];
+                    }
+                }
+                return _files;
+            }
+        }
+
+
         private static SortedList<string, Bitmap> _mergedCategoryIcons = null;
 
         /// <summary>
@@ -68,26 +91,21 @@ namespace CategoryIconFix
                         if (_mergedCategoryIcons.ContainsKey(proxy.Desc.Category)) continue;
 
                         //find from directory
-                        if (Directory.Exists(FolderPath))
+                        bool isSucceed = false;
+                        foreach (string itemFilePath in Files)
                         {
-                            bool isSucceed = false;
-                            foreach (string itemFilePath in Directory.GetFiles(FolderPath))
+                            if (!itemFilePath.Contains(proxy.Desc.Category)) continue;
+                            try
                             {
-                                if (!itemFilePath.Contains(proxy.Desc.Category)) continue;
-                                try
-                                {
-                                    Bitmap bitmap = new Bitmap(itemFilePath);
-                                    _mergedCategoryIcons.Add(proxy.Desc.Category, bitmap);
-                                    isSucceed = true;
-                                    break;
-                                }
-                                catch { continue; }
+                                Bitmap bitmap = new Bitmap(itemFilePath);
+                                _mergedCategoryIcons.Add(proxy.Desc.Category, bitmap);
                             }
-                            //Add icon from folder first.
-                            if (isSucceed) continue;
+                            catch { continue; }
+                            isSucceed = true;
+                            break;
                         }
-                        //Create the Folder if not exists.
-                        else Directory.CreateDirectory(FolderPath);
+                        //Add icon from folder first.
+                        if (isSucceed) continue;
 
                         //if proxy is not compiled object continue.
                         if (proxy.Kind != GH_ObjectType.CompiledObject) continue;
