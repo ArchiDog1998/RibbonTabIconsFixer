@@ -159,8 +159,9 @@ namespace RibbonTabIconsFixer
             GH_ComponentServer.UpdateRibbonUI();
         }
 
-        internal static void ReLoadIcons()
+        internal static void ReloadIcons()
         {
+            _files = null;
             _mergedCategoryIcons = null;
             ChangeIcons(IsFixCategoryIcons);
         }

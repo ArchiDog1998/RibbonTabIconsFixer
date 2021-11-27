@@ -64,7 +64,7 @@ namespace RibbonTabIconsFixer
         private void DoingSomethingFirst(GH_DocumentEditor editor)
         {
             //Load Icons to replace.
-            CategoryIconChange.ReLoadIcons();
+            CategoryIconChange.ReloadIcons();
 
 
             //Major MenuItem.
@@ -76,7 +76,7 @@ namespace RibbonTabIconsFixer
             { Checked = CategoryIconChange.IsFixCategoryIcons};
 
             //Open Folder Item.
-            ToolStripMenuItem openDirectory = new ToolStripMenuItem("Open Icon Folder");
+            ToolStripMenuItem openDirectory = new ToolStripMenuItem("Open Icons Folder");
             openDirectory.Click += (sender, e) =>
             {
                 CategoryIconChange.OpenFolder();
@@ -87,7 +87,7 @@ namespace RibbonTabIconsFixer
             ToolStripMenuItem relaodIcon = new ToolStripMenuItem("Reload Icons");
             relaodIcon.Click += (sender, e) =>
             {
-                CategoryIconChange.ReLoadIcons();
+                CategoryIconChange.ReloadIcons();
             };
             major.DropDownItems.Add(relaodIcon);
 
