@@ -6,9 +6,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CategoryIconFixer
+namespace RibbonTabIconsFixer
 {
-    public class CategoryIconFixerInfo : GH_AssemblyInfo
+    public class RibbonTabIconsFixerInfo : GH_AssemblyInfo
     {
         public override string Name => "CategoryIconFixer";
 
@@ -63,9 +63,38 @@ namespace CategoryIconFixer
 
         private void DoingSomethingFirst(GH_DocumentEditor editor)
         {
-            ToolStripMenuItem displayItem = (ToolStripMenuItem)editor.MainMenuStrip.Items[3];
-            displayItem.DropDownItems.Insert(3, MenuCreator.CreateMajorMenu());
-            CategoryIconChange.Init();
+            //Load Icons to replace.
+            CategoryIconChange.ReLoadIcons();
+
+
+            //Major MenuItem.
+            ToolStripMenuItem major = new ToolStripMenuItem("Ribbon Tab Icons Fix", Properties.Resources.CategoryIconFixerIcon_24, (sender, e) =>
+            {
+                ((ToolStripMenuItem)sender).Checked = !((ToolStripMenuItem)sender).Checked;
+                CategoryIconChange.IsFixCategoryIcons = ((ToolStripMenuItem)sender).Checked;
+            })
+            { Checked = CategoryIconChange.IsFixCategoryIcons};
+
+            //Open Folder Item.
+            ToolStripMenuItem openDirectory = new ToolStripMenuItem("Open Icon Folder");
+            openDirectory.Click += (sender, e) =>
+            {
+                CategoryIconChange.OpenFolder();
+            };
+            major.DropDownItems.Add(openDirectory);
+
+            //Reload icons item.
+            ToolStripMenuItem relaodIcon = new ToolStripMenuItem("Reload Icons");
+            relaodIcon.Click += (sender, e) =>
+            {
+                CategoryIconChange.ReLoadIcons();
+            };
+            major.DropDownItems.Add(relaodIcon);
+
+            //Add to Display Menu.
+            ToolStripMenuItem viewItem = (ToolStripMenuItem)editor.MainMenuStrip.Items[2];
+            viewItem.DropDownItems.Insert(3, major);
+
         }
     }
 }

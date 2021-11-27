@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Profile 1": {
+    "CategoryIconChange": {
       "commandName": "Executable",
       "executablePath": "E:\\Software\\Rhino 7\\System\\Rhino.exe"
     }

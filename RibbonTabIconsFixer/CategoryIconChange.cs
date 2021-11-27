@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CategoryIconFixer
+namespace RibbonTabIconsFixer
 {
     internal static class CategoryIconChange
     {
@@ -47,10 +49,10 @@ namespace CategoryIconFixer
         }
 
         private static readonly string _directoryName = "CategoryIcons";
-        internal static readonly string FolderPath = Grasshopper.Folders.SettingsFolder + _directoryName + '\\';
+        private static readonly string FolderPath = Grasshopper.Folders.SettingsFolder + _directoryName + '\\';
 
         private static string[] _files = null;
-        public static string[] Files
+        private static string[] Files
         {
             get
             {
@@ -98,7 +100,7 @@ namespace CategoryIconFixer
                             try
                             {
                                 Bitmap bitmap = new Bitmap(itemFilePath);
-                                _mergedCategoryIcons.Add(proxy.Desc.Category, bitmap);
+                                _mergedCategoryIcons.Add(proxy.Desc.Category, ChangeBitmap(bitmap));
                             }
                             catch { continue; }
                             isSucceed = true;
@@ -118,7 +120,7 @@ namespace CategoryIconFixer
                         if (info.Icon == null) continue;
 
                         //add it to dictionary.
-                        _mergedCategoryIcons.Add(proxy.Desc.Category, info.Icon);
+                        _mergedCategoryIcons.Add(proxy.Desc.Category, ChangeBitmap(info.Icon));
                     }
 
                     //Add the origin category icons.
@@ -133,6 +135,17 @@ namespace CategoryIconFixer
             }
         }
 
+        private static Bitmap ChangeBitmap(Bitmap icon)
+        {
+            Bitmap bitmap = new Bitmap(16, 16, PixelFormat.Format32bppPArgb);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            graphics.SmoothingMode = SmoothingMode.HighSpeed;
+            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            graphics.DrawImage(icon, 0, 0, 16, 16);
+            graphics.Dispose();
+            return bitmap;
+        }
+
         private static void ChangeIcons(bool isReplace)
         {
             if (isReplace)
@@ -143,11 +156,18 @@ namespace CategoryIconFixer
             {
                 _categoryIconsFeild.SetValue(Grasshopper.Instances.ComponentServer, OriginCategoryIcons);
             }
+            GH_ComponentServer.UpdateRibbonUI();
         }
 
-        internal static void Init()
+        internal static void ReLoadIcons()
         {
+            _mergedCategoryIcons = null;
             ChangeIcons(IsFixCategoryIcons);
+        }
+
+        internal static void OpenFolder()
+        {
+            System.Diagnostics.Process.Start(FolderPath);
         }
     }
 }
