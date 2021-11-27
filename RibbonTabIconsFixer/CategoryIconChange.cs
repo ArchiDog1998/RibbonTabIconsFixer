@@ -1,4 +1,6 @@
-﻿using Grasshopper.Kernel;
+﻿using Grasshopper.GUI;
+using Grasshopper.GUI.Ribbon;
+using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -145,6 +147,8 @@ namespace RibbonTabIconsFixer
             graphics.Dispose();
             return bitmap;
         }
+        private static readonly PropertyInfo _ribbonPropertyInfo = typeof(GH_DocumentEditor).GetRuntimeProperties().Where(p => p.Name == "Ribbon").First();
+        private static readonly FieldInfo _iconInfo = typeof(GH_RibbonTab).GetRuntimeFields().Where(f => f.Name == "m_icon").First();
 
         private static void ChangeIcons(bool isReplace)
         {
@@ -156,7 +160,16 @@ namespace RibbonTabIconsFixer
             {
                 _categoryIconsFeild.SetValue(Grasshopper.Instances.ComponentServer, OriginCategoryIcons);
             }
-            GH_ComponentServer.UpdateRibbonUI();
+
+
+
+            GH_Ribbon ribbon = (GH_Ribbon)_ribbonPropertyInfo.GetValue(Grasshopper.Instances.DocumentEditor);
+            foreach (GH_RibbonTab item in ribbon.Tabs)
+            {
+                _iconInfo.SetValue(item, Grasshopper.Instances.ComponentServer.GetCategoryIcon(item.NameFull));
+            }
+            ribbon.LayoutRibbon();
+            ribbon.Refresh();
         }
 
         internal static void ReloadIcons()
