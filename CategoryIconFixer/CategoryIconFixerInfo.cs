@@ -13,7 +13,7 @@ namespace CategoryIconFixer
         public override string Name => "CategoryIconFixer";
 
         //Return a 24x24 pixel bitmap to represent this GHA library.
-        public override Bitmap Icon => null;
+        public override Bitmap Icon => Properties.Resources.CategoryIconFixerIcon_24;
 
         //Return a short string describing the purpose of this GHA library.
         public override string Description => "Fix Category icon can't show bitmap bug.";
@@ -63,6 +63,8 @@ namespace CategoryIconFixer
 
         private void DoingSomethingFirst(GH_DocumentEditor editor)
         {
+            ToolStripMenuItem displayItem = (ToolStripMenuItem)editor.MainMenuStrip.Items[3];
+            displayItem.DropDownItems.Insert(3, MenuCreator.CreateMajorMenu());
             CategoryIconChange.Init();
         }
     }

@@ -9,10 +9,33 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>秋水</Authors>
     <PackageLicenseFile>D:\OneDrive - stu.zafu.edu.cn\Rhino Share Files\07 Grasshopper Developments 蚱蜢开发\# 项目案例\CategoryIconFix\LICENSE</PackageLicenseFile>
+    <PackageIcon>CategoryIconFixerIcon_128.png</PackageIcon>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="Grasshopper" Version="6.12.19029.6381" IncludeAssets="compile;build" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="Resources\CategoryIconFixerIcon_128.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
   <PropertyGroup Condition="$(Configuration) == 'Debug' AND $([MSBuild]::IsOSPlatform(Windows))">
