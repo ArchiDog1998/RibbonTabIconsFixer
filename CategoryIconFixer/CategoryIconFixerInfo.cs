@@ -6,11 +6,11 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace CategoryIconFix
+namespace CategoryIconFixer
 {
-    public class CategoryIconFixInfo : GH_AssemblyInfo
+    public class CategoryIconFixerInfo : GH_AssemblyInfo
     {
-        public override string Name => "CategoryIconFix";
+        public override string Name => "CategoryIconFixer";
 
         //Return a 24x24 pixel bitmap to represent this GHA library.
         public override Bitmap Icon => null;

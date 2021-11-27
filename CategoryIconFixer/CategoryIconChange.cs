@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CategoryIconFix
+namespace CategoryIconFixer
 {
     internal static class CategoryIconChange
     {
