@@ -147,28 +147,19 @@ namespace RibbonTabIconsFixer
             graphics.Dispose();
             return bitmap;
         }
+
         private static readonly PropertyInfo _ribbonPropertyInfo = typeof(GH_DocumentEditor).GetRuntimeProperties().Where(p => p.Name == "Ribbon").First();
         private static readonly FieldInfo _iconInfo = typeof(GH_RibbonTab).GetRuntimeFields().Where(f => f.Name == "m_icon").First();
 
         private static void ChangeIcons(bool isReplace)
         {
-            if (isReplace)
-            {
-                _categoryIconsFeild.SetValue(Grasshopper.Instances.ComponentServer, MergedCategoryIcons);
-            }
-            else
-            {
-                _categoryIconsFeild.SetValue(Grasshopper.Instances.ComponentServer, OriginCategoryIcons);
-            }
-
-
+            _categoryIconsFeild.SetValue(Grasshopper.Instances.ComponentServer, isReplace ? MergedCategoryIcons : OriginCategoryIcons);
 
             GH_Ribbon ribbon = (GH_Ribbon)_ribbonPropertyInfo.GetValue(Grasshopper.Instances.DocumentEditor);
             foreach (GH_RibbonTab item in ribbon.Tabs)
             {
                 _iconInfo.SetValue(item, Grasshopper.Instances.ComponentServer.GetCategoryIcon(item.NameFull));
             }
-            ribbon.LayoutRibbon();
             ribbon.Refresh();
         }
 

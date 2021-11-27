@@ -25,6 +25,8 @@ namespace RibbonTabIconsFixer
 
         //Return a string representing your preferred contact details.
         public override string AuthorContact => "1123993881@qq.com";
+
+        public override string Version => "1.0.0";
     }
 
     public class CategoryIconFixAssemblyPriority : GH_AssemblyPriority
