@@ -91,6 +91,9 @@ namespace RibbonTabIconsFixer
                     //Get additional category icons.
                     foreach (IGH_ObjectProxy proxy in Grasshopper.Instances.ComponentServer.ObjectProxies)
                     {
+                        //Skip the case that don't have Category.
+                        if (!proxy.Desc.HasCategory) continue;
+
                         //if already have icon then skip.
                         if (_mergedCategoryIcons.ContainsKey(proxy.Desc.Category)) continue;
 
@@ -98,7 +101,8 @@ namespace RibbonTabIconsFixer
                         bool isSucceed = false;
                         foreach (string itemFilePath in Files)
                         {
-                            if (!itemFilePath.Contains(proxy.Desc.Category)) continue;
+                            string key = Path.GetFileName(itemFilePath);
+                            if (!key.Contains(proxy.Desc.Category)) continue;
                             try
                             {
                                 Bitmap bitmap = new Bitmap(itemFilePath);

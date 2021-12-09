@@ -1,0 +1,15 @@
+---
+name: RibbonTabIconsFixer
+version: 1.0.0
+authors:
+- 秋水
+description: > 
+  It will fix icons in ribbon tab as much as possible.
+  
+  You can save some bitmaps named with their category's full name in Grasshopper Settings Folder's CategoryIcons folder. Then this plugin will read those bitmaps to category's icon. Else, it will load bitmap from their assembly info's bitmap if they have. 
+url: "https://www.food4rhino.com/en/app/ribbon-tab-icons-fixer"
+keywords:
+- icon
+- category
+icon_url: "https://static.food4rhino.com/s3fs-public/styles/thumbnail/public/users-files/qiu-shui/app/categoryiconfixericon256.png"
+
